@@ -26,16 +26,15 @@ function CardItem({ card }) {
   return (
     <div
       style={{
-        width: "160px",
-        height: "220px",
-        margin: "10px",
+        width: "220px",
+        height: "320px",
+        margin: "12px",
         perspective: "1000px",
         display: "inline-block",
         cursor: "pointer"
       }}
       onClick={handleFlip}
     >
-      {/* FLIP CONTAINER */}
       <div
         style={{
           width: "100%",
@@ -47,7 +46,6 @@ function CardItem({ card }) {
         }}
       >
 
-        {/* FRONT SIDE */}
         <div
           style={{
             position: "absolute",
@@ -60,7 +58,7 @@ function CardItem({ card }) {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            justifyContent: "center",
+            justifyContent: "flex-start",
             padding: "10px",
             boxSizing: "border-box"
           }}
@@ -70,14 +68,30 @@ function CardItem({ card }) {
             alt={card.name}
             style={{
               width: "100%",
-              height: "140px",
+              height: "170px",
               objectFit: "contain"
             }}
           />
 
-          <p style={{ color: "white", margin: "5px 0" }}>
+          <p style={{
+            color: "white",
+            margin: "5px 0 2px 0",
+            fontWeight: "bold"
+          }}>
             {card.name}
           </p>
+
+          <div style={{
+            fontSize: "12px",
+            color: "#ccc",
+            textAlign: "center",
+            lineHeight: "1.3"
+          }}>
+            <div>Set: {card.set?.name || "Unknown"}</div>
+            <div>Rarity: {card.rarity || "Unknown"}</div>
+            <div>Type: {card.types?.join(", ") || "Unknown"}</div>
+            <div>HP: {card.hp || "N/A"}</div>
+          </div>
 
           <button
             onClick={toggleFavorite}
@@ -85,15 +99,16 @@ function CardItem({ card }) {
               backgroundColor: isFav ? "yellow" : "black",
               color: isFav ? "black" : "white",
               border: "1px solid yellow",
-              padding: "4px",
-              cursor: "pointer"
+              padding: "6px",
+              marginTop: "6px",
+              cursor: "pointer",
+              fontSize: "12px"
             }}
           >
             {isFav ? "📌 Pinned" : "📍 Pin"}
           </button>
         </div>
 
-        {/* BACK SIDE */}
         <div
           style={{
             position: "absolute",
