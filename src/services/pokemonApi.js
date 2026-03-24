@@ -5,16 +5,25 @@ export const pokemonApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://api.pokemontcg.io/v2/',
   }),
+
   endpoints: (builder) => ({
     getCards: builder.query({
-      query: ({ page = 1, search = "" }) => {
-        let url = `cards?page=${page}&pageSize=20`;
+      query: ({ page = 1, search = "", type = "" }) => {
+        let queryParts = [];
 
         if (search) {
-          url += `&q=name:${search}`;
+          queryParts.push(`name:${search}`);
         }
 
-        return url;
+        if (type) {
+          queryParts.push(`types:${type}`);
+        }
+
+        let queryString = queryParts.length
+          ? `&q=${queryParts.join(" ")}`
+          : "";
+
+        return `cards?page=${page}&pageSize=20${queryString}`;
       },
     }),
   }),
