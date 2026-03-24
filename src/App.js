@@ -6,19 +6,24 @@ import CardList from './components/CardList';
 import Pagination from './components/Pagination';
 import SearchBar from './components/SearchBar';
 import TypeFilter from './components/TypeFilter';
-
 import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
 function Home() {
+
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [type, setType] = useState("");
-
   const { data, error, isLoading } = useGetCardsQuery({
     page,
     search,
     type
   });
+  const cardCount = data?.data?.length || 0;
+
+  useEffect(() => {
+    setPage(1);
+  }, [search]);
 
   if (isLoading) return <h1>Loading...</h1>;
   if (error) return <h1>Error fetching data</h1>;
@@ -28,7 +33,26 @@ function Home() {
       <h1>Pokemon Cards</h1>
 
       <TypeFilter setType={setType} />
-      <SearchBar search={search} setSearch={setSearch} />
+      <div style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        gap: "20px",
+        marginBottom: "20px"
+      }}>
+        <SearchBar search={search} setSearch={setSearch} />
+
+        <div style={{
+          padding: "6px 12px",
+          border: "1px solid yellow",
+          borderRadius: "8px",
+          color: "yellow",
+          fontFamily: "monospace",
+          fontSize: "14px"
+        }}>
+          Showing {cardCount} cards
+        </div>
+      </div>
 
       <CardList cards={data.data} />
 
