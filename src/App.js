@@ -33,22 +33,19 @@ function Home() {
       <h1>Pokemon Cards</h1>
 
       <TypeFilter setType={setType} />
-      <div style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        gap: "20px",
-        marginBottom: "20px"
-      }}>
+      <div style={{ marginBottom: "20px" }}>
+        
         <SearchBar search={search} setSearch={setSearch} />
 
         <div style={{
-          padding: "6px 12px",
+          marginTop: "8px",
+          display: "inline-block",
+          padding: "4px 10px",
           border: "1px solid yellow",
-          borderRadius: "8px",
+          borderRadius: "6px",
           color: "yellow",
           fontFamily: "monospace",
-          fontSize: "14px"
+          fontSize: "13px"
         }}>
           Showing {cardCount} cards
         </div>
