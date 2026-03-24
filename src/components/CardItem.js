@@ -16,16 +16,36 @@ function CardItem({ card }) {
   };
 
   return (
-    <div style={{
-      border: "2px solid yellow",
-      padding: "10px",
-      margin: "10px",
-      width: "150px",
-      textAlign: "center",
-      backgroundColor: "#000",
-      color: "#fff"
-    }}>
-      <img src={card.images.small} alt={card.name} style={{ width: "100%" }} />
+    <div
+      style={{
+        border: "2px solid yellow",
+        padding: "10px",
+        margin: "10px",
+        width: "150px",
+        textAlign: "center",
+        backgroundColor: "#111",
+        color: "#fff",
+        borderRadius: "10px",
+        cursor: "pointer",
+        transition: "all 0.3s ease"
+      }}
+
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = "scale(1.05)";
+        e.currentTarget.style.boxShadow = "0 0 15px yellow";
+      }}
+
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = "scale(1)";
+        e.currentTarget.style.boxShadow = "none";
+      }}
+    >
+      <img
+        src={card.images.small}
+        alt={card.name}
+        style={{ width: "100%" }}
+      />
+
       <p>{card.name}</p>
 
       <button
