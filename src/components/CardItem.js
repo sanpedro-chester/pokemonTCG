@@ -23,6 +23,27 @@ function CardItem({ card }) {
     setFlipped((prev) => !prev);
   };
 
+  const getRarityGlow = (rarity) => {
+    switch (rarity) {
+      case "Rare":
+      case "Rare Holo":
+        return "0 0 15px gold";
+
+      case "Uncommon":
+        return "0 0 10px silver";
+
+      case "Common":
+        return "0 0 5px gray";
+
+      case "Rare Ultra":
+      case "Rare Secret":
+        return "0 0 20px violet";
+
+      default:
+        return "none";
+    }
+  };
+
   return (
     <div
       style={{
@@ -60,7 +81,9 @@ function CardItem({ card }) {
             alignItems: "center",
             justifyContent: "flex-start",
             padding: "10px",
-            boxSizing: "border-box"
+            boxSizing: "border-box",
+            boxShadow: getRarityGlow(card.rarity),
+            transition: "box-shadow 0.4s ease",
           }}
         >
           <img
