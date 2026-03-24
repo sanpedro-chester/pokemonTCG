@@ -8,6 +8,7 @@ import SearchBar from './components/SearchBar';
 import TypeFilter from './components/TypeFilter';
 
 import { useSelector } from 'react-redux';
+import Loading from './components/Loading';
 
 function Home() {
   const [page, setPage] = useState(1);
@@ -39,22 +40,9 @@ function Home() {
     setPage(1);
   }, [search, type]);
 
-  if (isLoading) {
-    return (
-      <div style={{
-        backgroundColor: "#000",
-        color: "yellow",
-        height: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        fontFamily: "monospace",
-        fontSize: "20px"
-      }}>
-        Loading Pokémon Cards...
-      </div>
-    );
-  }
+if (isLoading) {
+  return <Loading />;
+}
 
   if (error) return <h1>Error fetching data</h1>;
 
@@ -176,32 +164,131 @@ function PinnedPage() {
   );
 }
 
+
 function NavBar() {
+  const [open, setOpen] = useState(false);
   const pinned = useSelector((state) => state.favorites?.favorites || []);
 
   return (
-    <div style={{
-      display: "flex",
-      justifyContent: "center",
-      gap: "20px",
-      padding: "10px",
-      backgroundColor: "#111"
-    }}>
-      <Link to="/">Home</Link>
-      <Link to="/pinned">Pinned ({pinned.length})</Link>
-    </div>
+    <>
+      <div style={{
+        position: "fixed",
+        top: 0,
+        right: 0,
+        width: "100%",
+        height: "50px",
+        backgroundColor: "#111",
+        display: "flex",
+        justifyContent: "flex-end",
+        alignItems: "center",
+        padding: "0 15px",
+        boxSizing: "border-box",
+        zIndex: 1000
+      }}>
+        <button
+          onClick={() => setOpen(true)}
+          style={{
+            background: "none",
+            border: "none",
+            color: "yellow",
+            fontSize: "24px",
+            cursor: "pointer"
+          }}
+        >
+          ☰
+        </button>
+      </div>
+
+      <div style={{
+        position: "fixed",
+        top: 0,
+        right: open ? "0" : "-250px",
+        width: "250px",
+        height: "100%",
+        backgroundColor: "#000",
+        borderLeft: "2px solid yellow",
+        transition: "right 0.3s ease",
+        zIndex: 1001,
+        paddingTop: "60px"
+      }}>
+        <button
+          onClick={() => setOpen(false)}
+          style={{
+            position: "absolute",
+            top: "10px",
+            right: "10px",
+            background: "none",
+            border: "none",
+            color: "yellow",
+            fontSize: "20px",
+            cursor: "pointer"
+          }}
+        >
+          ✕
+        </button>
+
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <Link
+            to="/"
+            onClick={() => setOpen(false)}
+            style={{
+              padding: "15px",
+              color: "yellow",
+              textDecoration: "none",
+              transition: "all 0.3s ease"
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.backgroundColor = "#111";
+              e.target.style.paddingLeft = "25px";
+              e.target.style.boxShadow = "0 0 10px yellow";
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.backgroundColor = "transparent";
+              e.target.style.paddingLeft = "15px";
+              e.target.style.boxShadow = "none";
+            }}
+          >
+            Home
+          </Link>
+
+          <Link
+            to="/pinned"
+            onClick={() => setOpen(false)}
+            style={{
+              padding: "15px",
+              color: "yellow",
+              textDecoration: "none",
+              transition: "all 0.3s ease"
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.backgroundColor = "#111";
+              e.target.style.paddingLeft = "25px";
+              e.target.style.boxShadow = "0 0 10px yellow";
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.backgroundColor = "transparent";
+              e.target.style.paddingLeft = "15px";
+              e.target.style.boxShadow = "none";
+            }}
+          >
+            📌 Pinned ({pinned.length})
+          </Link>
+        </div>
+      </div>
+    </>
   );
 }
 
 export default function App() {
   return (
-    <Router>
-      <NavBar />
+      <Router>
+        <NavBar />
 
-      <div style={{
-        transition: "opacity 0.4s ease",
-        opacity: 1
-      }}>
+        <div style={{
+          paddingTop: "60px",
+          transition: "opacity 0.4s ease",
+          opacity: 1
+        }}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/pinned" element={<PinnedPage />} />
