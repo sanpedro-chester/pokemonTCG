@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useGetCardsQuery } from './services/pokemonApi';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
@@ -6,35 +6,59 @@ import CardList from './components/CardList';
 import Pagination from './components/Pagination';
 import SearchBar from './components/SearchBar';
 import TypeFilter from './components/TypeFilter';
+
 import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
 
 function Home() {
-
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [type, setType] = useState("");
+
   const { data, error, isLoading } = useGetCardsQuery({
     page,
     search,
     type
   });
+
   const cardCount = data?.data?.length || 0;
 
+  // ✅ FIXED: reset page when search OR type changes
   useEffect(() => {
     setPage(1);
-  }, [search]);
+  }, [search, type]);
 
-  if (isLoading) return <h1>Loading...</h1>;
+  // ✅ REAL LOADING STATE
+  if (isLoading) {
+    return (
+      <div style={{
+        backgroundColor: "#000",
+        color: "yellow",
+        height: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        fontFamily: "monospace",
+        fontSize: "20px"
+      }}>
+        Loading Pokémon Cards...
+      </div>
+    );
+  }
+
   if (error) return <h1>Error fetching data</h1>;
 
   return (
-    <div style={{ backgroundColor: "#000", minHeight: "100vh", color: "#fff", textAlign: "center" }}>
+    <div style={{
+      backgroundColor: "#000",
+      minHeight: "100vh",
+      color: "#fff",
+      textAlign: "center"
+    }}>
       <h1>Pokemon Cards</h1>
 
       <TypeFilter setType={setType} />
+
       <div style={{ marginBottom: "20px" }}>
-        
         <SearchBar search={search} setSearch={setSearch} />
 
         <div style={{
@@ -62,7 +86,12 @@ function PinnedPage() {
   const pinned = useSelector((state) => state.favorites.favorites);
 
   return (
-    <div style={{ backgroundColor: "#000", minHeight: "100vh", color: "#fff", textAlign: "center" }}>
+    <div style={{
+      backgroundColor: "#000",
+      minHeight: "100vh",
+      color: "#fff",
+      textAlign: "center"
+    }}>
       <h1>📌 Pinned Cards</h1>
 
       {pinned.length === 0 ? (
@@ -75,6 +104,8 @@ function PinnedPage() {
 }
 
 function NavBar() {
+  const pinned = useSelector((state) => state.favorites.favorites);
+
   return (
     <div style={{
       display: "flex",
@@ -84,7 +115,10 @@ function NavBar() {
       backgroundColor: "#111"
     }}>
       <Link to="/" style={{ color: "yellow" }}>Home</Link>
-      <Link to="/pinned" style={{ color: "yellow" }}>Pinned</Link>
+
+      <Link to="/pinned" style={{ color: "yellow" }}>
+        📌 Pinned ({pinned.length})
+      </Link>
     </div>
   );
 }
