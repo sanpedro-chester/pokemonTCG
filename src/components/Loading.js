@@ -5,42 +5,33 @@ function Loading() {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      backgroundColor: "#000"
+      backgroundColor: "#000",
+      flexDirection: "column"
     }}>
-      <div style={{
-        width: "60px",
-        height: "100px",
-        position: "relative",
-        animation: "flash 1s infinite"
-      }}>
-        <div style={{
-          width: "0",
-          height: "0",
-          borderLeft: "15px solid transparent",
-          borderRight: "15px solid transparent",
-          borderTop: "40px solid yellow",
-          position: "absolute",
-          left: "15px"
-        }}></div>
-
-        <div style={{
-          width: "0",
-          height: "0",
-          borderLeft: "15px solid transparent",
-          borderRight: "15px solid transparent",
-          borderBottom: "40px solid yellow",
-          position: "absolute",
-          top: "30px",
-          left: "15px"
-        }}></div>
-      </div>
+      
+      <svg
+        width="120"
+        height="200"
+        viewBox="0 0 100 200"
+        style={{
+          animation: "electricPulse 1s infinite ease-in-out"
+        }}
+      >
+        <polygon
+          points="50,0 20,100 55,100 30,200 80,90 45,90"
+          fill="yellow"
+          style={{
+            filter: "drop-shadow(0 0 10px yellow)"
+          }}
+        />
+      </svg>
 
       <style>
         {`
-          @keyframes flash {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.2); opacity: 0.5; }
-            100% { transform: scale(1); opacity: 1; }
+          @keyframes electricPulse {
+            0% { transform: scale(1); filter: brightness(1); }
+            50% { transform: scale(1.15); filter: brightness(1.8); }
+            100% { transform: scale(1); filter: brightness(1); }
           }
         `}
       </style>

@@ -4,19 +4,25 @@ import { useSelector } from 'react-redux';
 
 function NavBar() {
   const [open, setOpen] = useState(false);
-  const pinned = useSelector((state) => state.favorites.favorites);
+  const pinned = useSelector((state) => state.favorites?.favorites || []);
 
   return (
     <div style={{
       position: "fixed",
       top: 0,
-      right: 0,
+      left: 0,
       width: "100%",
+      height: "50px",
       backgroundColor: "#111",
-      padding: "10px",
-      boxSizing: "border-box"
+      zIndex: 1000
     }}>
-      <div style={{ display: "flex", justifyContent: "flex-end" }}>
+      <div style={{
+        display: "flex",
+        justifyContent: "flex-end",
+        alignItems: "center",
+        height: "100%",
+        paddingRight: "15px"
+      }}>
         <button
           onClick={() => setOpen(!open)}
           style={{
@@ -27,20 +33,21 @@ function NavBar() {
             cursor: "pointer"
           }}
         >
-          Menu
+          ☰
         </button>
       </div>
 
       {open && (
         <div style={{
-          position: "absolute",
+          position: "fixed",
+          top: "50px",
           right: "10px",
-          top: "45px",
           backgroundColor: "#000",
           border: "1px solid yellow",
           display: "flex",
           flexDirection: "column",
-          minWidth: "150px"
+          minWidth: "180px",
+          zIndex: 2000
         }}>
           <Link
             to="/"
