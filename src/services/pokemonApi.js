@@ -7,7 +7,15 @@ export const pokemonApi = createApi({
   }),
   endpoints: (builder) => ({
     getCards: builder.query({
-      query: (page = 1) => `cards?page=${page}&pageSize=20`,
+      query: ({ page = 1, search = "" }) => {
+        let url = `cards?page=${page}&pageSize=20`;
+
+        if (search) {
+          url += `&q=name:${search}`;
+        }
+
+        return url;
+      },
     }),
   }),
 });
