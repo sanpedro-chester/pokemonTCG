@@ -6,8 +6,8 @@ import SearchBar from './components/SearchBar';
 
 function App() {
   const [page, setPage] = useState(1);
-  const { data, error, isLoading } = useGetCardsQuery({ page, search });;
   const [search, setSearch] = useState("");
+  const { data, error, isLoading } = useGetCardsQuery({ page, search });;
 
   if (isLoading) return <h1>Loading...</h1>;
   if (error) return <h1>Error fetching data</h1>;
