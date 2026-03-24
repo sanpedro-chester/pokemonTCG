@@ -1,25 +1,39 @@
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function NavBar() {
-  const pinnedCount = useSelector(
-    (state) => state.favorites.favorites.length
-  );
+  const [open, setOpen] = useState(false);
 
   return (
     <div style={{
-      display: "flex",
-      justifyContent: "center",
-      gap: "20px",
-      padding: "10px",
-      backgroundColor: "#111",
-      color: "yellow"
+      position: "fixed",
+      top: 10,
+      right: 10
     }}>
-      <Link to="/" style={{ color: "yellow" }}>Home</Link>
+      <button
+        onClick={() => setOpen(!open)}
+        style={{
+          backgroundColor: "black",
+          color: "yellow",
+          border: "1px solid yellow",
+          padding: "8px"
+        }}
+      >
+        ☰ Menu
+      </button>
 
-      <Link to="/pinned" style={{ color: "yellow" }}>
-        📌 Pinned ({pinnedCount})
-      </Link>
+      {open && (
+        <div style={{
+          display: "flex",
+          flexDirection: "column",
+          backgroundColor: "#111",
+          border: "1px solid yellow",
+          marginTop: "5px"
+        }}>
+          <Link to="/" style={{ color: "yellow", padding: "5px" }}>Home</Link>
+          <Link to="/pinned" style={{ color: "yellow", padding: "5px" }}>Pinned</Link>
+        </div>
+      )}
     </div>
   );
 }

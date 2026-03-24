@@ -8,23 +8,24 @@ export const pokemonApi = createApi({
 
   endpoints: (builder) => ({
     getCards: builder.query({
-      query: ({ page = 1, search = "", type = "" }) => {
-        let queryParts = [];
+      query: ({ page = 1, search = "", type = "", hpMin = "", hpMax = "", set = "" }) => {
+        let url = `cards?page=${page}&pageSize=20`;
 
-        if (search) {
-          queryParts.push(`name:${search}`);
+        let filters = [];
+
+        if (search) filters.push(`name:${search}`);
+        if (type) filters.push(`types:${type}`);
+        if (set) filters.push(`set.name:${set}`);
+        if (hpMin || hpMax) {
+          filters.push(`hp:[${hpMin || 0} TO ${hpMax || 999}]`);
         }
 
-        if (type) {
-          queryParts.push(`types:${type}`);
+        if (filters.length > 0) {
+          url += `&q=${filters.join(" AND ")}`;
         }
 
-        let queryString = queryParts.length
-          ? `&q=${queryParts.join(" ")}`
-          : "";
-
-        return `cards?page=${page}&pageSize=20${queryString}`;
-      },
+        return url;
+      }
     }),
   }),
 });

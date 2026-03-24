@@ -118,15 +118,18 @@ function CardItem({ card }) {
 
           <button
             onClick={toggleFavorite}
-            style={{
-              backgroundColor: isFav ? "yellow" : "black",
-              color: isFav ? "black" : "white",
-              border: "1px solid yellow",
-              padding: "6px",
-              marginTop: "6px",
-              cursor: "pointer",
-              fontSize: "12px"
-            }}
+              style={{
+                backgroundColor: isFav ? "yellow" : "black",
+                color: isFav ? "black" : "white",
+                border: "1px solid yellow",
+                padding: "6px",
+                marginTop: "6px",
+                cursor: "pointer",
+                fontSize: "12px",
+                transition: "0.3s",
+                transform: isFav ? "scale(1.1)" : "scale(1)",
+                boxShadow: isFav ? "0 0 12px yellow" : "none"
+              }}
           >
             {isFav ? "📌 Pinned" : "📍 Pin"}
           </button>

@@ -14,20 +14,27 @@ function Home() {
   const [search, setSearch] = useState("");
   const [type, setType] = useState("");
 
+  const [hpMin, setHpMin] = useState("");
+  const [hpMax, setHpMax] = useState("");
+  const [setFilter, setSetFilter] = useState("");
+  const [rarity, setRarity] = useState("");
+
   const { data, error, isLoading } = useGetCardsQuery({
     page,
     search,
-    type
+    type,
+    rarity,
+    hpMin,
+    hpMax,
+    set: setFilter
   });
 
   const cardCount = data?.data?.length || 0;
 
-  // ✅ FIXED: reset page when search OR type changes
   useEffect(() => {
     setPage(1);
   }, [search, type]);
 
-  // ✅ REAL LOADING STATE
   if (isLoading) {
     return (
       <div style={{
@@ -75,30 +82,9 @@ function Home() {
         </div>
       </div>
 
-      <CardList cards={data.data} />
+      <CardList cards={data?.data || []} />
 
       <Pagination page={page} setPage={setPage} />
-    </div>
-  );
-}
-
-function PinnedPage() {
-  const pinned = useSelector((state) => state.favorites.favorites);
-
-  return (
-    <div style={{
-      backgroundColor: "#000",
-      minHeight: "100vh",
-      color: "#fff",
-      textAlign: "center"
-    }}>
-      <h1>📌 Pinned Cards</h1>
-
-      {pinned.length === 0 ? (
-        <h2>No pinned cards yet</h2>
-      ) : (
-        <CardList cards={pinned} />
-      )}
     </div>
   );
 }
@@ -114,26 +100,20 @@ function NavBar() {
       padding: "10px",
       backgroundColor: "#111"
     }}>
-      <Link to="/" style={{ color: "yellow" }}>Home</Link>
-
-      <Link to="/pinned" style={{ color: "yellow" }}>
-        📌 Pinned ({pinned.length})
-      </Link>
+      <Link to="/">Home</Link>
+      <Link to="/pinned">Pinned ({pinned.length})</Link>
     </div>
   );
 }
 
-function App() {
+export default function App() {
   return (
     <Router>
       <NavBar />
 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/pinned" element={<PinnedPage />} />
       </Routes>
     </Router>
   );
 }
-
-export default App;
