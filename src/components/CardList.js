@@ -1,16 +1,16 @@
 import CardItem from "./CardItem";
 
-function CardList({ cards }) {
+function CardList({ cards = [] }) {
   return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-        gap: "15px",
-        padding: "10px",
-        justifyItems: "center"
-      }}
-    >
+    <div style={{
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fill, 220px)",
+      gap: "10px",
+      padding: "10px",
+      justifyContent: "center",
+      maxWidth: "1200px",
+      margin: "0 auto"
+    }}>
       {cards.map((card) => (
         <CardItem key={card.id} card={card} />
       ))}

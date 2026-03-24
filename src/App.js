@@ -61,7 +61,10 @@ function Home() {
       color: "#fff",
       textAlign: "center"
     }}>
-      <h1>Pokemon Cards</h1>
+      <h1 style={{ fontSize: "32px", marginBottom: "20px" }}>
+        <span style={{ color: "red" }}>Pokemon</span>
+        <span style={{ color: "skyblue" }}>TCG</span>
+      </h1>
 
       <TypeFilter setType={setType} />
 
@@ -89,8 +92,29 @@ function Home() {
   );
 }
 
+function PinnedPage() {
+  const pinned = useSelector((state) => state.favorites?.favorites || []);
+
+  return (
+    <div style={{
+      backgroundColor: "#000",
+      minHeight: "100vh",
+      color: "#fff",
+      textAlign: "center"
+    }}>
+      <h1>📌 Pinned Cards</h1>
+
+      {pinned.length === 0 ? (
+        <h2>No pinned cards yet</h2>
+      ) : (
+        <CardList cards={pinned || []} />
+      )}
+    </div>
+  );
+}
+
 function NavBar() {
-  const pinned = useSelector((state) => state.favorites.favorites);
+  const pinned = useSelector((state) => state.favorites?.favorites || []);
 
   return (
     <div style={{
@@ -113,6 +137,7 @@ export default function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/pinned" element={<PinnedPage />} />
       </Routes>
     </Router>
   );

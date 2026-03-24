@@ -49,10 +49,17 @@ function CardItem({ card }) {
       style={{
         width: "220px",
         height: "320px",
-        margin: "12px",
+        margin: "6px",
         perspective: "1000px",
-        display: "inline-block",
+        transition: "transform 0.25s cubic-bezier(0.25, 1.5, 0.5, 1)",
         cursor: "pointer"
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = "scale(1.08)";
+      }}
+
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = "scale(1)";
       }}
       onClick={handleFlip}
     >
